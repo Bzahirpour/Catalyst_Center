@@ -2,12 +2,13 @@ import requests
 import json
 import time
 import sys
+import getpass
 
 # DNA Center settings
 DNAC_URL = "dnac.fda.gov"
 DNAC_PORT = "443"
 USERNAME = input("ad_dio_firstinitial.lastname: ")
-PASSWORD = input("PIN+RSA: ")
+PASSWORD = getpass.getpass("PIN+RSA: ")
 
 # List of device IDs to run commands on
 DEVICE_IDS = [
