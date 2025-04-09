@@ -4,20 +4,17 @@ import time
 import sys
 import getpass
 
-# DNA Center settings
 DNAC_URL = "dnac.fda.gov"
 DNAC_PORT = "443"
 USERNAME = input("ad_dio_firstinitial.lastname: ")
 PASSWORD = getpass.getpass("PIN+RSA: ")
 
-# List of device IDs to run commands on
 DEVICE_IDS = [
     'fc015970-0156-42d7-9f4f-0ab65e34d620',
     '5d39bcd8-cfa0-4879-a286-0f2eaa44a349',
     '5bc1f9e7-141e-40cb-9387-5c67ba217cc7'
 ]
 
-# Disable SSL warnings for simplicity
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 def main():
@@ -25,23 +22,18 @@ def main():
         token = get_auth_token()
         with open("device_output.txt", "w") as output_file:
             for device_id in DEVICE_IDS:
-                # Fetch the device information (like hostname) using the device ID
                 device = get_device_by_id(token, device_id)
                 print(f"Running commands on device {device['hostname']} ({device_id})...")
                 
-                # Run the show commands
                 task_id_1 = run_cli_command(token, device_id, "show run | include hostname")
                 task_id_2 = run_cli_command(token, device_id, "show run | include location")
                 
-                # Get the results for both commands
                 file_id_1 = get_task_result(task_id_1, token)
                 file_id_2 = get_task_result(task_id_2, token)
-                
-                # Retrieve command output
+           
                 output_1 = get_cli_command(file_id_1, token)
                 output_2 = get_cli_command(file_id_2, token)
                 
-                # Write output to file
                 output_file.write(f"Output for {device['hostname']} ({device_id}):\n")
                 output_file.write(f"--- show run | include hostname ---\n{output_1}\n")
                 output_file.write(f"--- show run | include location ---\n{output_2}\n")
