@@ -2,7 +2,7 @@ import requests
 import json
 import time
 import sys
-import getpass
+
 
 DNAC_URL = "dnac.fda.gov"
 DNAC_PORT = "443"
